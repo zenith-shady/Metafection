@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>METAFECTION</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=Space+Mono:wght@400;700&amp;family=Manrope:wght@400;500;700&amp;family=Epilogue:wght@800&amp;family=Space+Grotesk:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-fixed": "#00174b",
+                        "tertiary-fixed": "#acedff",
+                        "background": "#fcf8ff",
+                        "surface-variant": "#e3e0f8",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-bright": "#fcf8ff",
+                        "surface-container": "#efecff",
+                        "tertiary-container": "#00788c",
+                        "on-surface": "#1a1a2b",
+                        "outline": "#737686",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004e5c",
+                        "surface-container-highest": "#e3e0f8",
+                        "secondary": "#0058be",
+                        "inverse-surface": "#2f2f40",
+                        "surface-container-low": "#f5f2ff",
+                        "on-tertiary-fixed": "#001f26",
+                        "tertiary-fixed-dim": "#4cd7f6",
+                        "secondary-container": "#2170e4",
+                        "primary-fixed": "#dbe1ff",
+                        "surface": "#fcf8ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-dim": "#dad7ef",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#005e6e",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#d7f6ff",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#434655",
+                        "surface-container-high": "#e8e6fd",
+                        "inverse-on-surface": "#f2efff",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "primary-container": "#2563eb",
+                        "primary": "#004ac6",
+                        "surface-tint": "#0053db",
+                        "on-background": "#1a1a2b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Syne", "sans-serif"],
+                        "body": ["DM Sans", "sans-serif"],
+                        "label": ["Space Mono", "monospace"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .syne-font {
+            font-family: 'Syne', sans-serif;
+        }
+
+        .space-mono {
+            font-family: 'Space Mono', monospace;
+        }
+
+        :root {
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(195, 198, 215, 0.2);
+        }
+
+        .capability-glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .capability-glass:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .capability-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(37, 99, 235, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .capability-glass:hover::before {
+            opacity: 1;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 40px rgba(0, 74, 198, 0.15);
+        }
+
+        /* Reveal Animations */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        .reveal-pill {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+            will-change: transform, opacity;
+        }
+
+        @media (max-width: 768px) {
+            .reveal-up {
+                transform: translateY(15px);
+            }
+
+            .reveal-left {
+                transform: translateX(-20px);
+            }
+
+            .reveal-right {
+                transform: translateX(20px);
+            }
+        }
+
+        .is-visible {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .delay-400 {
+            transition-delay: 400ms;
+        }
+
+        .delay-500 {
+            transition-delay: 500ms;
+        }
+
+        .delay-600 {
+            transition-delay: 600ms;
+        }
+
+        .delay-800 {
+            transition-delay: 800ms;
+        }
+
+        .delay-1000 {
+            transition-delay: 1000ms;
+        }
+
+        /* Ticker Pause */
+        .ticker-group:hover .ticker-scroll {
+            animation-play-state: paused;
+        }
+
+        .ticker-scroll {
+            animation: ticker 30s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Divider Line Setup */
+        .divider-container .divider-line {
+            width: 100%;
+            height: 1px;
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 1.2s var(--ease-out-expo);
+        }
+
+        .divider-container.is-visible .divider-line {
+            transform: scaleX(1);
+        }
+
+        /* Interactive Card Lifts */
+        .hover-lift {
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            border-color: rgba(96, 165, 250, 0.5);
+        }
+
+        .growth-card-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .growth-card-lift:hover {
+            transform: translateY(-8px) scale(1.05) !important;
+            box-shadow: 0 0 40px rgba(37, 99, 235, 0.5) !important;
+        }
+
+        .hover-scale {
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.02);
+            border-color: rgba(180, 200, 255, 0.8);
+        }
+
+        .input-focus-glow {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Mobile Menu Classes */
+        .mobile-menu-active {
+            overflow: hidden;
+        }
+
+        #mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #mobile-menu.active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+    <!-- Top Progress Bar -->
+    <div id="scroll-progress"
+        class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-blue-600 to-cyan-500 w-0 z-[100] transition-all duration-[50ms] ease-linear rounded-r-full">
+    </div>
+
+    <!-- TopNavBar -->
+    <nav id="navbar"
+        class="fixed top-0 left-1/2 z-[100] flex items-center px-4 md:px-6 py-2.5 md:py-3 rounded-full border border-white/20 mt-6 md:mt-8 w-max max-w-[90vw] bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(10,10,26,0.04)] transform -translate-x-1/2 -translate-y-12 opacity-0 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
+        <div class="flex items-center gap-4 md:gap-12 relative w-full justify-between">
+            <img onclick="window.scrollTo({top: 0, behavior: 'smooth'})" src="logo.svg" alt="Metafection Logo"
+                class="h-7 md:h-10 w-auto cursor-pointer hover:opacity-80 transition-opacity duration-300" />
+            
+            <!-- Desktop Links -->
+            <div id="navbar-links-container" class="hidden lg:flex items-center gap-8 relative text-sm md:text-base">
+                <a class="nav-link text-slate-600 font-medium hover:text-blue-600 transition-colors duration-300 relative z-10"
+                    href="#services">Services</a>
+                <a class="nav-link text-slate-600 font-medium hover:text-blue-600 transition-colors duration-300 relative z-10"
+                    href="#work">Work</a>
+                <a class="nav-link text-slate-600 font-medium hover:text-blue-600 transition-colors duration-300 relative z-10"
+                    href="#process">Process</a>
+                <a class="nav-link text-slate-600 font-medium hover:text-blue-600 transition-colors duration-300 relative z-10"
+                    href="#pricing">Pricing</a>
+                <a class="nav-link text-slate-600 font-medium hover:text-blue-600 transition-colors duration-300 relative z-10"
+                    href="#about">About</a>
+                <div id="nav-indicator"
+                    class="absolute bottom-[-10px] left-0 h-[2px] bg-blue-600 transition-all duration-300 w-0 opacity-0 rounded-full z-0 pointer-events-none drop-shadow-[0_0_4px_rgba(37,99,235,0.4)]">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="document.getElementById('cta-box').scrollIntoView({behavior: 'smooth'})"
+                    class="bg-primary text-on-primary px-4 md:px-6 py-2 md:py-2.5 rounded-full font-bold text-[12px] md:text-sm tracking-tight hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20">
+                    Get Started
+                </button>
+                
+                <!-- Burger Button -->
+                <button id="menu-toggle" class="flex lg:hidden flex-col gap-1.5 p-2 focus:outline-none bg-slate-100 rounded-full w-10 h-10 items-center justify-center">
+                    <span class="w-5 h-0.5 bg-slate-900 rounded-full transition-all duration-300 origin-center"></span>
+                    <span class="w-5 h-0.5 bg-slate-900 rounded-full transition-all duration-300 origin-center"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white z-[90] flex flex-col items-center justify-center p-8 lg:hidden">
+        <div class="flex flex-col gap-8 text-center">
+            <a onclick="toggleMenu()" class="text-3xl font-bold syne-font text-slate-900" href="#services">Services</a>
+            <a onclick="toggleMenu()" class="text-3xl font-bold syne-font text-slate-900" href="#work">Work</a>
+            <a onclick="toggleMenu()" class="text-3xl font-bold syne-font text-slate-900" href="#process">Process</a>
+            <a onclick="toggleMenu()" class="text-3xl font-bold syne-font text-slate-900" href="#pricing">Pricing</a>
+            <a onclick="toggleMenu()" class="text-3xl font-bold syne-font text-slate-900" href="#about">About</a>
+        </div>
+        <button onclick="toggleMenu(); document.getElementById('cta-box').scrollIntoView({behavior: 'smooth'})"
+            class="mt-12 w-full max-w-xs bg-primary text-on-primary py-5 rounded-full font-bold text-xl shadow-xl">
+            Get Free Audit
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center py-32 md:py-40 px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <canvas class="absolute inset-0 w-full h-full" id="hero-particles"></canvas>
+            <div
+                class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(219,225,255,0.4)_0%,_transparent_70%)]">
+            </div>
+        </div>
+        <div class="relative z-10 text-center max-w-5xl mx-auto">
+            <span
+                class="reveal-up space-mono text-xs font-bold uppercase tracking-[0.2em] text-primary mb-12 block bg-primary/5 px-4 py-2 rounded-full border border-primary/10 max-w-fit mx-auto">
+                India's automation agency
+            </span>
+            <h1 class="syne-font text-[clamp(2.5rem,10vw,9rem)] leading-[0.9] md:leading-[0.85] tracking-tighter mb-8 md:10 text-glow">
+                <span class="hero-gradient inline-block reveal-up delay-200">Automate.</span><br />
+                <span class="text-slate-900 inline-block reveal-up delay-400">Infect.</span>
+            </h1>
+            <h2 class="syne-font text-4xl md:text-7xl tracking-tight text-slate-400 mb-12 md:16 reveal-up delay-600">Dominate.
+            </h2>
+            <p
+                class="max-w-2xl mx-auto text-base md:text-xl text-on-surface-variant mb-12 md:16 font-medium leading-relaxed reveal-up delay-800 px-4">
+                We build autonomous growth engines that eliminate manual toil. Highly precise, aggressively efficient,
+                undeniably premium.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 reveal-up delay-1000 px-6">
+                <button onclick="document.getElementById('cta-box').scrollIntoView({behavior: 'smooth'})"
+                    class="w-full sm:w-auto bg-primary text-on-primary px-8 md:px-10 py-4 md:py-5 rounded-full text-base md:text-lg font-bold hover:scale-105 active:scale-95 transition-transform shadow-xl shadow-primary/30 flex items-center justify-center gap-3">
+                    Infect My Growth
+                    <span class="material-symbols-outlined text-xl" data-icon="rocket_launch">rocket_launch</span>
+                </button>
+                <button onclick="document.getElementById('work').scrollIntoView({behavior: 'smooth'})"
+                    class="w-full sm:w-auto liquid-glass text-primary px-8 md:px-10 py-4 md:py-5 rounded-full text-base md:text-lg font-bold border border-outline-variant/30 hover:bg-white transition-colors">
+                    View Systems
+                </button>
+            </div>
+        </div>
+        <!-- Scroll Bounce indicator -->
+        <div
+            class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce opacity-0 transition-opacity duration-1000 delay-1000 reveal-up">
+            <span class="space-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Scroll</span>
+            <span class="material-symbols-outlined text-primary text-sm font-bold">arrow_downward</span>
+        </div>
+    </section>
+
+    <!-- Ticker Section -->
+    <div class="py-20 bg-surface-container-low overflow-hidden border-y border-outline-variant/10 ticker-group">
+        <div class="flex whitespace-nowrap ticker-scroll">
+            <div class="flex items-center gap-24 px-12">
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">GOHIGHLEVEL</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">ZAPIER</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">MAKE.COM</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">OPENAI</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">AIRTABLE</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">PYTHON</span>
+            </div>
+            <div class="flex items-center gap-24 px-12">
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">GOHIGHLEVEL</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">ZAPIER</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">MAKE.COM</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">OPENAI</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">AIRTABLE</span>
+                <span
+                    class="space-mono text-2xl font-bold opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-300 cursor-default hover:text-primary inline-block">PYTHON</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Grid -->
+    <section class="py-24 md:py-40 px-6 md:px-8 max-w-7xl mx-auto" id="services">
+        <div class="mb-16 md:mb-24 text-center md:text-left">
+            <span
+                class="space-mono text-primary font-bold tracking-widest uppercase mb-4 md:6 block reveal-up delay-100">Capabilities</span>
+            <h2 class="syne-font text-4xl md:text-7xl leading-tight mb-6 md:10 reveal-up delay-200">Autonomous Infection.
+            </h2>
+            <p class="text-base md:text-xl text-on-surface-variant max-w-md leading-relaxed reveal-up delay-300">Our systems don't
+                just "help" your team. They replace repetitive logic with liquid intelligence.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Service Card 01 -->
+            <div class="reveal-up delay-100 h-full">
+                <div class="capability-glass p-14 rounded-xl flex flex-col gap-8 group js-capability-card h-full">
+                    <span class="space-mono text-primary/40 text-4xl font-bold relative z-10">01</span>
+                    <h3 class="syne-font text-3xl font-bold relative z-10">GHL CRM Setup &amp; Automation</h3>
+                    <p class="text-on-surface-variant font-light leading-relaxed relative z-10 text-lg">Full GoHighLevel
+                        setup built around your exact sales process — pipelines, workflows, lead nurturing sequences,
+                        sub-accounts, and automations. We don't use templates. Every flow is custom-built for how your
+                        team actually works.</p>
+                    <div class="mt-auto relative z-10 overflow-hidden pt-2">
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider reveal-pill delay-500">GHL
+                            · Workflows · Pipelines</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Service Card 02 -->
+            <div class="reveal-up delay-200 h-full">
+                <div class="capability-glass p-14 rounded-xl flex flex-col gap-8 group js-capability-card h-full">
+                    <span class="space-mono text-primary/40 text-4xl font-bold relative z-10">02</span>
+                    <h3 class="syne-font text-3xl font-bold relative z-10">Dialer + CRM Integration</h3>
+                    <p class="text-on-surface-variant font-light leading-relaxed relative z-10 text-lg">Connect
+                        Vicidial, Exotel, or any dialer to your CRM via webhooks. The moment a call ends, the contact is
+                        created in GHL, the call is logged, and the follow-up task is triggered — automatically. Zero
+                        manual data entry.</p>
+                    <div class="mt-auto relative z-10 overflow-hidden pt-2">
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider reveal-pill delay-600">Vicidial
+                            · Webhooks · GHL</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Service Card 03 -->
+            <div class="reveal-up delay-300 h-full">
+                <div class="capability-glass p-14 rounded-xl flex flex-col gap-8 group js-capability-card h-full">
+                    <span class="space-mono text-primary/40 text-4xl font-bold relative z-10">03</span>
+                    <h3 class="syne-font text-3xl font-bold relative z-10">WhatsApp &amp; AI Follow-up</h3>
+                    <p class="text-on-surface-variant font-light leading-relaxed relative z-10 text-lg">WhatsApp
+                        Business API connected to your CRM. Missed call text-back, automated drip sequences, and AI
+                        chatbot for lead qualification. Every Indian business runs on WhatsApp — your follow-ups should
+                        too.</p>
+                    <div class="mt-auto relative z-10 overflow-hidden pt-2">
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider reveal-pill delay-[700ms]">WhatsApp
+                            API · AI · Automation</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Service Card 04 -->
+            <div class="reveal-up delay-400 h-full">
+                <div class="capability-glass p-14 rounded-xl flex flex-col gap-8 group js-capability-card h-full">
+                    <span class="space-mono text-primary/40 text-4xl font-bold relative z-10">04</span>
+                    <h3 class="syne-font text-3xl font-bold relative z-10">HR &amp; Payroll Automation</h3>
+                    <p class="text-on-surface-variant font-light leading-relaxed relative z-10 text-lg">Custom
+                        attendance tracking apps, automated payroll calculation, and leave management systems —
+                        replacing Excel sheets with a self-running system. Built from firsthand experience solving this
+                        exact problem.</p>
+                    <div class="mt-auto relative z-10 overflow-hidden pt-2">
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider reveal-pill delay-[800ms]">Attendance
+                            · Payroll · Custom App</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-24 md:py-40 bg-surface-container-low" id="process">
+        <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <h2 class="syne-font text-4xl md:text-8xl mb-16 md:32 tracking-tighter reveal-up delay-100">The Protocol.</h2>
+            <div class="space-y-24 md:space-y-48">
+                <!-- Step 01 -->
+                <div class="divider-container relative pt-12 md:pt-16">
+                    <div class="divider-line absolute top-0 left-0 bg-outline-variant/30 w-full h-[1px]"></div>
+                    <div class="flex flex-col md:flex-row items-start gap-8 md:gap-16">
+                        <span class="space-mono text-xl md:text-2xl font-bold text-primary reveal-left delay-100">0<span
+                                class="step-counter" data-target="1">0</span></span>
+                        <div class="flex-1 reveal-left delay-200">
+                            <h3 class="syne-font text-3xl md:text-4xl mb-4 md:8">Audit &amp; Map</h3>
+                            <p class="text-base md:text-xl text-on-surface-variant leading-relaxed max-w-2xl">We jump on a free
+                                30-minute call and dive into your current workflow. We map every manual task, every lost
+                                lead, every repetitive action, and every data gap — then show you exactly what we'd
+                                automate and what it would save you.</p>
+                        </div>
+                        <div class="w-full md:w-1/3 reveal-right delay-300">
+                            <img class="w-full aspect-video object-cover rounded-lg shadow-2xl hover:scale-105 transition-transform duration-500"
+                                alt="Audit & Map Workflow visual" src="step1.png" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 02 -->
+                <div class="divider-container relative pt-12 md:pt-16">
+                    <div class="divider-line absolute top-0 left-0 bg-outline-variant/30 w-full h-[1px]"></div>
+                    <div class="flex flex-col md:flex-row items-start gap-8 md:gap-16">
+                        <span class="space-mono text-xl md:text-2xl font-bold text-primary reveal-left delay-100">0<span
+                                class="step-counter" data-target="2">0</span></span>
+                        <div class="flex-1 reveal-left delay-200">
+                            <h3 class="syne-font text-3xl md:text-4xl mb-4 md:8">Architecture Design</h3>
+                            <p class="text-base md:text-xl text-on-surface-variant leading-relaxed max-w-2xl">We blueprint your
+                                entire automation system. No fluff. Custom-designed workflows using GHL, webhooks,
+                                WhatsApp API, or whatever tools fit your stack — built around how your team actually
+                                operates.</p>
+                        </div>
+                        <div class="w-full md:w-1/3 reveal-right delay-300">
+                            <img class="w-full aspect-video object-cover rounded-lg shadow-2xl hover:scale-105 transition-transform duration-500"
+                                alt="Architecture Design Nodes visual" src="step2.png" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 03 -->
+                <div class="divider-container relative pt-12 md:pt-16">
+                    <div class="divider-line absolute top-0 left-0 bg-outline-variant/30 w-full h-[1px]"></div>
+                    <div class="flex flex-col md:flex-row items-start gap-8 md:gap-16">
+                        <span class="space-mono text-xl md:text-2xl font-bold text-primary reveal-left delay-100">0<span
+                                class="step-counter" data-target="3">0</span></span>
+                        <div class="flex-1 reveal-left delay-200">
+                            <h3 class="syne-font text-3xl md:text-4xl mb-4 md:8">The Build</h3>
+                            <p class="text-base md:text-xl text-on-surface-variant leading-relaxed max-w-2xl">Our engineers
+                                deploy the solution. We build the bots, connect the APIs, and run stress tests to ensure
+                                zero failure. You get a direct line to us on Slack/WhatsApp throughout the entire build
+                                phase.</p>
+                        </div>
+                        <div class="w-full md:w-1/3 reveal-right delay-300">
+                            <img class="w-full aspect-video object-cover rounded-lg shadow-2xl hover:scale-105 transition-transform duration-500"
+                                alt="Engineering the Workflow visual" src="step3.png" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Step 04 -->
+                <div class="divider-container relative pt-12 md:pt-16">
+                    <div class="divider-line absolute top-0 left-0 bg-outline-variant/30 w-full h-[1px]"></div>
+                    <div class="flex flex-col md:flex-row items-start gap-8 md:gap-16">
+                        <span class="space-mono text-xl md:text-2xl font-bold text-primary reveal-left delay-100">0<span
+                                class="step-counter" data-target="4">0</span></span>
+                        <div class="flex-1 reveal-left delay-200">
+                            <img class="w-full aspect-video object-cover rounded-lg shadow-2xl hover:scale-105 transition-transform duration-500"
+                                alt="Infection Chatbot AI visual" src="step4.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Work Section -->
+    <section class="py-24 md:py-40 px-6 md:px-8 max-w-7xl mx-auto" id="work">
+        <div class="mb-16 md:mb-24 text-center md:text-left">
+            <span
+                class="space-mono text-primary font-bold tracking-widest uppercase mb-4 md:6 block reveal-up delay-100">Our Work</span>
+            <h2 class="syne-font text-4xl md:text-7xl leading-tight mb-6 md:10 reveal-up delay-200">Real automation systems<br />delivering real results.</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12 items-stretch">
+            <!-- Case Study 1 -->
+            <div class="reveal-up delay-300 h-full">
+                <div
+                    class="liquid-glass p-12 rounded-xl flex flex-col justify-between hover-lift h-full relative z-10 group">
+                    <div>
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider mb-8">AI
+                            Receptionist</span>
+                        <h3 class="syne-font text-3xl mb-8">AI Receptionist System</h3>
+                        <div class="mb-5">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Problem:</p>
+                            <p class="text-on-surface-variant font-medium">Missed 60% inbound calls.</p>
+                        </div>
+                        <div class="mb-8">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Solution:</p>
+                            <p class="text-on-surface-variant font-medium">24/7 AI voice agent handling calls.</p>
+                        </div>
+                        <div class="bg-primary/5 p-6 rounded-lg border border-primary/10 mb-10">
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Result:</p>
+                            <p class="syne-font text-xl font-bold text-slate-900">+3x lead capture, 0 missed calls.</p>
+                        </div>
+                    </div>
+                    <button onclick="document.getElementById('cta-box').scrollIntoView({behavior: 'smooth'})"
+                        class="w-full py-5 border border-outline text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-colors mt-auto">View
+                        Demo</button>
+                </div>
+            </div>
+
+            <!-- Case Study 2 -->
+            <div class="reveal-up delay-400 h-full">
+                <div
+                    class="liquid-glass p-12 rounded-xl flex flex-col justify-between hover-lift h-full relative z-10 group">
+                    <div>
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider mb-8">Workflow
+                            Automation</span>
+                        <h3 class="syne-font text-3xl mb-8">Lead Follow-up Automation</h3>
+                        <div class="mb-5">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Problem:</p>
+                            <p class="text-on-surface-variant font-medium">Leads not followed up on time.</p>
+                        </div>
+                        <div class="mb-8">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Solution:</p>
+                            <p class="text-on-surface-variant font-medium">Automated WhatsApp + CRM follow-ups.</p>
+                        </div>
+                        <div class="bg-primary/5 p-6 rounded-lg border border-primary/10 mb-10">
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Result:</p>
+                            <p class="syne-font text-xl font-bold text-slate-900">+45% overall conversion rate.</p>
+                        </div>
+                    </div>
+                    <button onclick="document.getElementById('cta-box').scrollIntoView({behavior: 'smooth'})"
+                        class="w-full py-5 border border-outline text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-colors mt-auto">View
+                        Demo</button>
+                </div>
+            </div>
+
+            <!-- Case Study 3 -->
+            <div class="reveal-up delay-500 h-full">
+                <div
+                    class="liquid-glass p-12 rounded-xl flex flex-col justify-between hover-lift h-full relative z-10 group">
+                    <div>
+                        <span
+                            class="inline-block space-mono text-[11px] bg-primary/5 px-4 py-1.5 rounded-full text-primary font-bold border border-primary/10 uppercase tracking-wider mb-8">CRM
+                            Automation</span>
+                        <h3 class="syne-font text-3xl mb-8">CRM + Sales Pipeline</h3>
+                        <div class="mb-5">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Problem:</p>
+                            <p class="text-on-surface-variant font-medium">Manual lead tracking &amp; data entry.</p>
+                        </div>
+                        <div class="mb-8">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Solution:</p>
+                            <p class="text-on-surface-variant font-medium">Fully automated CRM system.</p>
+                        </div>
+                        <div class="bg-primary/5 p-6 rounded-lg border border-primary/10 mb-10">
+                            <p class="text-xs font-bold text-primary uppercase tracking-widest mb-2">Result:</p>
+                            <p class="syne-font text-xl font-bold text-slate-900">Saved 20+ hours per week.</p>
+                        </div>
+                    </div>
+                    <button onclick="document.getElementById('cta-box').scrollIntoView({behavior: 'smooth'})"
+                        class="w-full py-5 border border-outline text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-colors mt-auto">View
+                        Demo</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="py-24 md:py-40 px-6 md:px-8 max-w-7xl mx-auto" id="pricing">
+        <div class="text-center mb-16 md:mb-24">
+            <h2 class="syne-font text-4xl md:text-7xl tracking-tight mb-6 md:8 reveal-up delay-100">Investment.</h2>
+            <p class="text-on-surface-variant text-base md:text-lg reveal-up delay-200 px-4">Automated efficiency is an asset, not an
+                expense.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 items-stretch">
+            <!-- Starter -->
+            <div class="reveal-up delay-300 h-full">
+                <div class="liquid-glass p-12 rounded-xl flex flex-col justify-between hover-lift h-full">
+                    <div>
+                        <span class="space-mono text-xs font-bold text-slate-500 mb-6 block">LEVEL 01</span>
+                        <h3 class="syne-font text-3xl mb-4">Starter</h3>
+                        <div class="flex items-baseline gap-1 mb-10">
+                            <span class="text-5xl font-bold">₹<span class="number-counter"
+                                    data-target="15">0</span>k</span>
+                            <span class="text-slate-400">/mo</span>
+                        </div>
+                        <ul class="space-y-6 mb-16">
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-primary text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                3 Custom Automations
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-primary text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Basic Lead Scraping
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-primary text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Email Integration
+                            </li>
+                        </ul>
+                    </div>
+                    <button
+                        class="w-full py-5 border border-outline text-primary font-bold rounded-full hover:bg-white transition-colors">Choose
+                        Path</button>
+                </div>
+            </div>
+            <!-- Growth (Featured) -->
+            <div class="reveal-up delay-400 h-full relative z-10">
+                <div
+                    class="bg-primary p-12 rounded-xl flex flex-col justify-between transform md:scale-105 shadow-2xl shadow-primary/30 text-on-primary relative growth-card-lift h-full">
+                    <div
+                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-primary px-6 py-2 rounded-full text-xs font-black space-mono hover:scale-105 transition-transform duration-300">
+                        MOST INFECTIOUS</div>
+                    <div>
+                        <span class="space-mono text-xs font-bold text-primary-fixed mb-6 block">LEVEL 02</span>
+                        <h3 class="syne-font text-3xl mb-4">Growth</h3>
+                        <div class="flex items-baseline gap-1 mb-10 text-white">
+                            <span class="text-5xl font-bold">₹<span class="number-counter"
+                                    data-target="35">0</span>k</span>
+                            <span class="opacity-60">/mo</span>
+                        </div>
+                        <ul class="space-y-6 mb-16">
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-white text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Unlimited Basic Workflows
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-white text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                AI Content Generation
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-white text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Omni-channel CRM Sync
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-white text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Priority Support
+                            </li>
+                        </ul>
+                    </div>
+                    <button
+                        class="w-full py-5 bg-white text-primary font-bold rounded-full hover:bg-slate-100 transition-colors">Scale
+                        Now</button>
+                </div>
+            </div>
+            <!-- Retainer -->
+            <div class="reveal-up delay-500 h-full">
+                <div class="liquid-glass p-12 rounded-xl flex flex-col justify-between hover-lift h-full">
+                    <div>
+                        <span class="space-mono text-xs font-bold text-slate-500 mb-6 block">MAINTENANCE</span>
+                        <h3 class="syne-font text-3xl mb-4">Retainer</h3>
+                        <div class="flex items-baseline gap-1 mb-10">
+                            <span class="text-5xl font-bold">₹<span class="number-counter"
+                                    data-target="10">0</span>k</span>
+                            <span class="text-slate-400">/mo</span>
+                        </div>
+                        <ul class="space-y-6 mb-16">
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-primary text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Workflow Monitoring
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-primary text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Bug Fixes &amp; Maintenance
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-medium">
+                                <span class="material-symbols-outlined text-primary text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Monthly Logic Audit
+                            </li>
+                        </ul>
+                    </div>
+                    <button
+                        class="w-full py-5 border border-outline text-primary font-bold rounded-full hover:bg-white transition-colors">Stay
+                        Optimized</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 md:py-40 bg-white">
+        <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <h2 class="syne-font text-4xl md:text-6xl mb-16 md:24 text-center reveal-up delay-100">Infected Voices.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <div class="reveal-scale delay-200 h-full">
+                    <div class="liquid-glass p-10 rounded-xl hover-scale h-full flex flex-col">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-14 h-14 rounded-full overflow-hidden bg-slate-200">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="professional portrait of a young male tech entrepreneur"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNUDDZkhlk2Na0WpZ5D9cKR62TcUKwMpvng-xD3I5c-jKBwN7ziivMTtP5KxbegiFl4EqVgTxdl7CdCizyaKENU3q0PUSoOov0pCq5C_tCRScZsa0q8C0aPT9xu0FwsfY1Ai0rZ93ndkJ1pM0EAfnQv8yblnCZgB1Vra6sfka2e2mnd3rODFOLXwgtxZ-cEf2eC_PqCp9ZVCChtV4qh9cQunkWmssXbZJlaSVDqHoqB3wWOwjpYirsfubYZ_zNat2x2-RUCnYLC0o" />
+                            </div>
+                            <div>
+                                <p class="font-bold">Rahul Mehta</p>
+                                <p class="text-xs text-slate-500 space-mono">SaaS Founder</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 mb-6">
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                        </div>
+                        <p class="italic text-on-surface-variant leading-relaxed text-lg">"They didn't just automate our
+                            emails; they rebuilt our entire sales floor with AI. We saved 40 hours a week."</p>
+                    </div>
+                </div>
+                <div class="reveal-scale delay-300 h-full">
+                    <div class="liquid-glass p-10 rounded-xl hover-scale h-full flex flex-col">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-14 h-14 rounded-full overflow-hidden bg-slate-200">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="close up headshot of a female marketing executive"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU2yuqiPz3eja2vZ8gRyIIwwMwuuCaCsIG4Tep_4TgN44F_h34ZFKqJTcL4aphqMyh261eeRrPB9n53h6_Q65lSzU2MNYElpOJ9zAzre-7D8uw36zvrko2HyWaOR_UwfbP84iND3xzb_3647YiJ9VGULULnlK6QQTlKj16TwMC2a9JGpVwMuu2yh0nnSxFnG_VH4v0gliRNPXrWKvDsRcOFsA_nwlu_6dvNeB5hzjPKyKoP4E-hmK2xHYr9n8yeJyHB90O0slUHkU" />
+                            </div>
+                            <div>
+                                <p class="font-bold">Ananya Singh</p>
+                                <p class="text-xs text-slate-500 space-mono">Agencies Lead</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 mb-6">
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                        </div>
+                        <p class="italic text-on-surface-variant leading-relaxed text-lg">"The level of precision in
+                            their lead scraping is unmatched. Our conversion rates jumped by 300% in month one."</p>
+                    </div>
+                </div>
+                <div class="reveal-scale delay-400 h-full">
+                    <div class="liquid-glass p-10 rounded-xl hover-scale h-full flex flex-col">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-14 h-14 rounded-full overflow-hidden bg-slate-200">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="headshot of a middle-aged male corporate executive"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlkpItrX2YiQxWkCcBGVV5DqEeCOX23NlYaKOnRmJf-Zvp7uRZvEV_Ve7W9SBuBYedXWgvYgbKm5Asxat3zQoBO6VB43OOBzI8q2O8vHieBZbst0ph6C3T5K1RRwuWL3D0mMREUSrx3aCH9OT0_FSQerjpRuLb4cjl8U67uusJsUxsGlP32wHbWl3H5sjMPMT3pHtGdwDiR0LDNTTwyG-hjx5sTZ4A-HchBY54QzsdQJnw9FypsKCmDsVle1EHDH3_QOxm2kO0gxE" />
+                            </div>
+                            <div>
+                                <p class="font-bold">Vikram Iyer</p>
+                                <p class="text-xs text-slate-500 space-mono">Real Estate Dev</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 mb-6">
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                            <span
+                                class="material-symbols-outlined star-icon text-slate-200 transition-colors duration-300 text-lg">star</span>
+                        </div>
+                        <p class="italic text-on-surface-variant leading-relaxed text-lg">"Metafection literally
+                            infected our business with speed. I don't touch data entry anymore. Period."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="py-24 md:py-40 bg-surface-container-low border-y border-outline-variant/10" id="about">
+        <div class="max-w-7xl mx-auto px-6 md:px-8">
+            <div class="mb-16 md:mb-24 text-center">
+                <span
+                    class="space-mono text-primary font-bold tracking-widest uppercase mb-4 md:6 block reveal-up delay-100">About
+                    Us</span>
+                <h2 class="syne-font text-4xl md:text-7xl leading-tight mb-8 reveal-up delay-200">We Don't Build
+                    Tools.<br /><span class="text-slate-400">We Build Systems That Print Revenue.</span></h2>
+                <p class="text-base md:text-xl text-on-surface-variant max-w-3xl mx-auto leading-relaxed reveal-up delay-300">
+                    Metafection helps businesses automate operations, capture more leads, and scale without increasing
+                    workload. We are an AI automation agency focused on solving real business problems. Not just bots —
+                    full systems.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto items-stretch">
+                <!-- Zain Khan -->
+                <div class="reveal-up delay-300 h-full">
+                    <div
+                        class="liquid-glass p-12 rounded-xl flex flex-col gap-6 hover-lift h-full hover:border-primary/30 transition-colors group relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-primary/80"></div>
+                        <div>
+                            <h3 class="syne-font text-3xl font-bold mb-1 pl-4">Zain Khan</h3>
+                            <p class="space-mono text-primary text-sm font-bold tracking-widest uppercase mb-8 pl-4">
+                                Founder</p>
+                            <p class="text-on-surface-variant text-lg leading-relaxed font-light pl-4">"Focused on
+                                building high-performance automation systems that directly impact revenue and
+                                efficiency."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nabeel Sayyed -->
+                <div class="reveal-up delay-400 h-full">
+                    <div
+                        class="liquid-glass p-12 rounded-xl flex flex-col gap-6 hover-lift h-full hover:border-primary/30 transition-colors group relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-primary/80"></div>
+                        <div>
+                            <h3 class="syne-font text-3xl font-bold mb-1 pl-4">Nabeel Sayyed</h3>
+                            <p class="space-mono text-primary text-sm font-bold tracking-widest uppercase mb-8 pl-4">
+                                Co-Founder</p>
+                            <p class="text-on-surface-variant text-lg leading-relaxed font-light pl-4">"Specializes in
+                                execution, system design, and delivering scalable automation solutions for businesses."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center reveal-up delay-500">
+                <div>
+                    <h3 class="syne-font text-4xl mb-6">Our Mission</h3>
+                    <p
+                        class="text-xl text-on-surface-variant leading-relaxed max-w-2xl border-l-2 border-primary pl-6 py-2 italic font-medium">
+                        "To eliminate manual work from businesses and replace it with intelligent automation."</p>
+                </div>
+                <div class="liquid-glass p-10 rounded-xl">
+                    <h4 class="space-mono text-primary font-bold tracking-widest uppercase mb-8 text-sm">Why
+                        Metafection?</h4>
+                    <ul class="space-y-6">
+                        <li class="flex items-center gap-4 text-lg font-medium text-slate-800">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg border border-outline/20">
+                                <span class="material-symbols-outlined text-primary text-xl">bolt</span>
+                            </div>
+                            Results-driven systems
+                        </li>
+                        <li class="flex items-center gap-4 text-lg font-medium text-slate-800">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg border border-outline/20">
+                                <span class="material-symbols-outlined text-primary text-xl">account_tree</span>
+                            </div>
+                            Built for scale
+                        </li>
+                        <li class="flex items-center gap-4 text-lg font-medium text-slate-800">
+                            <div
+                                class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-lg border border-outline/20">
+                                <span class="material-symbols-outlined text-primary text-xl">bar_chart</span>
+                            </div>
+                            Real business impact (not just tech)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 md:py-40 px-6 md:px-8">
+        <div id="cta-box"
+            class="max-w-5xl mx-auto liquid-glass p-8 md:p-24 rounded-xl text-center relative overflow-hidden border border-primary/20 reveal-scale delay-100">
+            <div class="absolute -top-32 -right-32 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
+            <h2 class="syne-font text-4xl md:text-7xl mb-8 md:10 relative z-10 tracking-tighter">Start the Infection.</h2>
+            <p class="text-on-surface-variant mb-12 md:16 relative z-10 text-base md:text-xl max-w-2xl mx-auto">Get a free automation audit
+                for your business workflows today. We'll show you exactly where you're bleeding time.</p>
+            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6 max-w-xl mx-auto relative z-10 w-full">
+                <input id="phoneInput"
+                    class="w-full px-6 md:px-8 py-4 md:py-5 rounded-full border-outline-variant/30 bg-surface focus:ring-0 text-base md:text-lg shadow-inner input-focus-glow outline-none reveal-up delay-300"
+                    placeholder="+91 WhatsApp Number" type="text" />
+                <button id="auditBtn"
+                    class="w-full md:w-auto bg-primary text-on-primary px-8 md:px-10 py-4 md:py-5 rounded-full font-bold whitespace-nowrap hover:scale-105 active:scale-95 transition-transform text-base md:text-lg shadow-xl shadow-primary/20 reveal-up delay-500">
+                    Get Free Audit
+                </button>
+            </div>
+            <p class="mt-8 text-[11px] md:text-sm space-mono text-slate-400">Response time: &lt; 15 minutes</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 px-6 md:px-8 border-t border-black/[0.08] w-full">
+        <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 w-full">
+            <div class="flex items-center gap-3">
+                <img src="logo.svg" alt="Metafection Logo" class="h-8 md:h-10 w-auto" />
+            </div>
+            <div class="text-center">
+                <p class="space-mono text-[11px] text-slate-400 uppercase tracking-wider">
+                    © 2027 Metafection · Automate. Infect. Dominate.
+                </p>
+            </div>
+            <div class="flex gap-8 items-center">
+                <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Privacy</a>
+                <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors" href="#">Terms</a>
+                <a class="text-sm font-medium text-slate-600 hover:text-primary transition-colors"
+                    href="mailto:metafection@gmail.com">metafection@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+            (function () {
+                // Hero Particles
+                const canvas = document.getElementById('hero-particles');
+                if (canvas) {
+                    const ctx = canvas.getContext('2d');
+                    let width, height, particles = [];
+                    const particleCount = 60;
+                    const connectionDistance = 150;
+                    const mouseHero = { x: null, y: null, radius: 200 };
+
+                    window.addEventListener('mousemove', (e) => {
+                        mouseHero.x = e.clientX;
+                        mouseHero.y = e.clientY;
+                    });
+
+                    function resize() {
+                        width = canvas.width = window.innerWidth;
+                        height = canvas.height = window.innerHeight;
+                    }
+
+                    class Particle {
+                        constructor() { this.init(); }
+                        init() {
+                            this.x = Math.random() * width;
+                            this.y = Math.random() * height;
+                            this.vx = (Math.random() - 0.5) * 0.4;
+                            this.vy = (Math.random() - 0.5) * 0.4;
+                            this.size = Math.random() * 2 + 1;
+                            this.baseRadius = this.size;
+                            this.pulse = Math.random() * Math.PI * 2;
+                        }
+                        update() {
+                            this.x += this.vx;
+                            this.y += this.vy;
+                            this.pulse += 0.02;
+                            if (this.x < 0 || this.x > width) this.vx *= -1;
+                            if (this.y < 0 || this.y > height) this.vy *= -1;
+                            if (mouseHero.x != null) {
+                                let dx = mouseHero.x - this.x;
+                                let dy = mouseHero.y - this.y;
+                                let dist = Math.sqrt(dx * dx + dy * dy);
+                                if (dist < mouseHero.radius) {
+                                    let force = (mouseHero.radius - dist) / mouseHero.radius;
+                                    this.x += dx * force * 0.02;
+                                    this.y += dy * force * 0.02;
+                                }
+                            }
+                        }
+                        draw() {
+                            let pulseSize = this.size + Math.sin(this.pulse) * 0.5;
+                            ctx.beginPath();
+                            ctx.arc(this.x, this.y, pulseSize, 0, Math.PI * 2);
+                            ctx.fillStyle = 'rgba(37, 99, 235, 0.12)';
+                            ctx.fill();
+                        }
+                    }
+
+                    function init() {
+                        resize();
+                        particles = [];
+                        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+                    }
+
+                    function animate() {
+                        ctx.clearRect(0, 0, width, height);
+                        if (mouseHero.x != null) {
+                            const gradient = ctx.createRadialGradient(mouseHero.x, mouseHero.y, 0, mouseHero.x, mouseHero.y, mouseHero.radius);
+                            gradient.addColorStop(0, 'rgba(37, 99, 235, 0.06)');
+                            gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
+                            ctx.fillStyle = gradient;
+                            ctx.fillRect(0, 0, width, height);
+                        }
+                        for (let i = 0; i < particles.length; i++) {
+                            const p1 = particles[i];
+                            p1.update();
+                            p1.draw();
+                            for (let j = i + 1; j < particles.length; j++) {
+                                const p2 = particles[j];
+                                const dx = p1.x - p2.x;
+                                const dy = p1.y - p2.y;
+                                const dist = Math.sqrt(dx * dx + dy * dy);
+                                if (dist < connectionDistance) {
+                                    ctx.beginPath();
+                                    ctx.strokeStyle = `rgba(37, 99, 235, ${0.06 * (1 - dist / connectionDistance)})`;
+                                    ctx.lineWidth = 1;
+                                    ctx.moveTo(p1.x, p1.y);
+                                    ctx.lineTo(p2.x, p2.y);
+                                    ctx.stroke();
+                                }
+                            }
+                        }
+                        requestAnimationFrame(animate);
+                    }
+                    window.addEventListener('resize', resize);
+                    init();
+                    animate();
+                }
+
+                // Capability Cards Mouse Glow
+                const cards = document.querySelectorAll('.js-capability-card');
+                cards.forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = ((e.clientX - rect.left) / rect.width) * 100;
+                        const y = ((e.clientY - rect.top) / rect.height) * 100;
+                        card.style.setProperty('--mouse-x', `${x}%`);
+                        card.style.setProperty('--mouse-y', `${y}%`);
+                    });
+                });
+            })();
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const toggle = document.getElementById('menu-toggle');
+            const spans = toggle.querySelectorAll('span');
+            
+            menu.classList.toggle('active');
+            document.body.classList.toggle('mobile-menu-active');
+            
+            // Animate burger to X
+            if (menu.classList.contains('active')) {
+                spans[0].style.transform = 'translateY(4px) rotate(45deg)';
+                spans[1].style.transform = 'translateY(-4px) rotate(-45deg)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.transform = 'none';
+            }
+        }
+
+        // Scroll Animations and Interactions
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Mobile Menu Toggle Event
+            const toggle = document.getElementById('menu-toggle');
+            if (toggle) toggle.addEventListener('click', toggleMenu);
+
+            // Navbar initial reveal
+            setTimeout(() => {
+                const nav = document.getElementById('navbar');
+                if (nav) {
+                    nav.classList.remove('-translate-y-12', 'opacity-0');
+                    nav.classList.add('translate-y-0', 'opacity-100');
+                }
+            }, 100);
+
+            // Navbar scroll effect & Top Progress Bar
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (nav) {
+                    if (window.scrollY > 80) {
+                        nav.classList.add('bg-white/80', 'backdrop-blur-2xl', 'border-white/40', 'shadow-[0px_20px_40px_rgba(10,10,26,0.08)]');
+                        nav.classList.remove('bg-white/70', 'backdrop-blur-xl', 'border-white/20');
+                    } else {
+                        nav.classList.remove('bg-white/80', 'backdrop-blur-2xl', 'border-white/40', 'shadow-[0px_20px_40px_rgba(10,10,26,0.08)]');
+                        nav.classList.add('bg-white/70', 'backdrop-blur-xl', 'border-white/20');
+                    }
+                }
+
+                const progress = document.getElementById('scroll-progress');
+                if (progress) {
+                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                    const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+                    const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
+                    progress.style.width = scrolled + '%';
+                }
+            });
+
+            // Hover sliding indicator on Nav
+            const links = document.querySelectorAll('.nav-link');
+            const indicator = document.getElementById('nav-indicator');
+            const navContainer = document.getElementById('navbar-links-container');
+
+            if (indicator && navContainer) {
+                links.forEach(link => {
+                    link.addEventListener('mouseenter', (e) => {
+                        const rect = e.target.getBoundingClientRect();
+                        const navRect = navContainer.getBoundingClientRect();
+                        indicator.style.width = `${rect.width}px`;
+                        indicator.style.left = `${rect.left - navRect.left}px`;
+                        indicator.style.opacity = '1';
+                    });
+                });
+                navContainer.addEventListener('mouseleave', () => {
+                    indicator.style.opacity = '0';
+                });
+            }
+
+            // Number counters animation logic
+            const animateCounter = (el) => {
+                const target = parseInt(el.dataset.target, 10);
+                const duration = 1200; // ms
+                const totalSteps = 40;
+                const stepTime = duration / totalSteps;
+                let current = 0;
+                const increment = target / totalSteps;
+
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        el.innerText = target;
+                        clearInterval(timer);
+                    } else {
+                        el.innerText = Math.floor(current);
+                    }
+                }, stepTime);
+            };
+
+            const animateStepCounter = (el) => {
+                const target = parseInt(el.dataset.target, 10);
+                let current = 0;
+                const timer = setInterval(() => {
+                    current++;
+                    el.innerText = current; // prefix '0' is statically placed outside span in HTML
+                    if (current >= target) clearInterval(timer);
+                }, 150); // fast tick clock
+            };
+
+            // IntersectionObserver logic
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+
+                        // If it contains pricing counters
+                        const counters = entry.target.querySelectorAll('.number-counter');
+                        counters.forEach(counter => {
+                            if (!counter.dataset.counted) {
+                                counter.dataset.counted = 'true';
+                                setTimeout(() => animateCounter(counter), 300); // trigger slightly after card starts revealing
+                            }
+                        });
+
+                        // If it contains protocol step "tick" counters
+                        const stepCounters = entry.target.querySelectorAll('.step-counter');
+                        stepCounters.forEach(counter => {
+                            if (!counter.dataset.counted) {
+                                counter.dataset.counted = 'true';
+                                setTimeout(() => animateStepCounter(counter), 100);
+                            }
+                        });
+
+                        // If it contains star ratings
+                        const stars = entry.target.querySelectorAll('.star-icon');
+                        stars.forEach((star, index) => {
+                            setTimeout(() => {
+                                star.classList.add('text-yellow-400');
+                                star.classList.remove('text-slate-200');
+                            }, 400 + (index * 120)); // staggered cascading fill-in mapping left to right
+                        });
+
+                        // Only play animations once natively
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Initial Trigger for element observations
+            const animatedElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale, .reveal-pill, .divider-container');
+            animatedElements.forEach(el => observer.observe(el));
+
+            // Also, initially trigger visible items inside viewport immediately (in case they don't get covered by scroll initially)
+            setTimeout(() => {
+                animatedElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                        el.classList.add('is-visible');
+                    }
+                });
+            }, 100);
+
+            // WhatsApp CTA Functionality
+            const button = document.querySelector("#auditBtn");
+            const input = document.querySelector("#phoneInput");
+
+            if (button && input) {
+                button.addEventListener("click", () => {
+                    const userPhone = input.value.trim();
+
+                    if (!userPhone) {
+                        alert("Please enter your phone number");
+                        return;
+                    }
+
+                    const message = `New Audit Request 🚀\nUser Phone: ${userPhone}`;
+                    const whatsappURL = `https://wa.me/918652300896?text=${encodeURIComponent(message)}`;
+
+                    window.open(whatsappURL, "_blank");
+                });
+            }
+
+        });
+    </script>
+</body>
+
+</html>

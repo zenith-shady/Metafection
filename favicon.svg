@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="32" viewBox="291 348 80 80" xml:space="preserve">
+<defs>
+<linearGradient id="SVGID_7890" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 64.108 71.4947)" x1="0" y1="-8.208" x2="462.808" y2="-8.208">
+<stop offset="0%" style="stop-color:#8e8d93;"/>
+<stop offset="2.38%" style="stop-color:#8e8d96;"/>
+<stop offset="4.76%" style="stop-color:#8e8d98;"/>
+<stop offset="7.14%" style="stop-color:#8e8d9b;"/>
+<stop offset="9.52%" style="stop-color:#8e8d9d;"/>
+<stop offset="11.9%" style="stop-color:#8e8ca0;"/>
+<stop offset="14.28%" style="stop-color:#8e8ca2;"/>
+<stop offset="16.66%" style="stop-color:#8d8ca5;"/>
+<stop offset="19.04%" style="stop-color:#8d8ca8;"/>
+<stop offset="21.42%" style="stop-color:#8c8caa;"/>
+<stop offset="23.8%" style="stop-color:#8c8cad;"/>
+<stop offset="26.19%" style="stop-color:#8b8cb0;"/>
+<stop offset="28.57%" style="stop-color:#8a8db2;"/>
+<stop offset="30.95%" style="stop-color:#898db5;"/>
+<stop offset="33.33%" style="stop-color:#888db8;"/>
+<stop offset="35.71%" style="stop-color:#878dba;"/>
+<stop offset="38.09%" style="stop-color:#868dbd;"/>
+<stop offset="40.47%" style="stop-color:#858dc0;"/>
+<stop offset="42.85%" style="stop-color:#848dc2;"/>
+<stop offset="45.23%" style="stop-color:#828ec5;"/>
+<stop offset="47.61%" style="stop-color:#818ec8;"/>
+<stop offset="50%" style="stop-color:#7f8eca;"/>
+<stop offset="52.38%" style="stop-color:#7d8ecd;"/>
+<stop offset="54.76%" style="stop-color:#7c8fcf;"/>
+<stop offset="57.14%" style="stop-color:#7a8fd2;"/>
+<stop offset="59.52%" style="stop-color:#788fd5;"/>
+<stop offset="61.9%" style="stop-color:#7590d7;"/>
+<stop offset="64.28%" style="stop-color:#7390da;"/>
+<stop offset="66.66%" style="stop-color:#7190dc;"/>
+<stop offset="69.04%" style="stop-color:#6e91df;"/>
+<stop offset="71.42%" style="stop-color:#6b91e1;"/>
+<stop offset="73.8%" style="stop-color:#6892e4;"/>
+<stop offset="76.19%" style="stop-color:#6592e6;"/>
+<stop offset="78.57%" style="stop-color:#6293e8;"/>
+<stop offset="80.95%" style="stop-color:#5e93eb;"/>
+<stop offset="83.33%" style="stop-color:#5b94ed;"/>
+<stop offset="85.71%" style="stop-color:#5694ef;"/>
+<stop offset="88.09%" style="stop-color:#5295f1;"/>
+<stop offset="90.47%" style="stop-color:#4d95f4;"/>
+<stop offset="92.85%" style="stop-color:#4896f6;"/>
+<stop offset="95.23%" style="stop-color:#4297f8;"/>
+<stop offset="97.61%" style="stop-color:#3b97fa;"/>
+<stop offset="100%" style="stop-color:#3398fc;"/>
+</linearGradient>
+</defs>
+<g transform="matrix(1.1322 0 0 1.1322 555.7039 384)">
+<g transform="matrix(1 0 0 1 -198.072 3.78)">
+<path style="fill: url(#SVGID_7890); fill-rule: nonzero; opacity: 1;" transform="translate(-96.94, -96.3347)" d="M 91.108 121.1747 L 106.3 121.1747 L 116.668 107.1347 L 116.668 121.1747 L 129.772 121.1747 L 129.772 71.4947 Z M 102.772 71.4947 L 64.108 121.1747 L 79.3 121.1747 L 102.772 92.0147 Z" />
+</g>
+</g>
+</svg>
